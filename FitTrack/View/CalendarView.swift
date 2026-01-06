@@ -10,8 +10,7 @@ import FSCalendar
 import UIKit
 
 struct FSCalendarView: UIViewRepresentable {
-//    @Binding var selectedDate: Date // Связь с датой в SwiftUI
-
+    
     func makeUIView(context: Context) -> FSCalendar {
         let calendar = FSCalendar()
         calendar.delegate = context.coordinator
@@ -21,11 +20,11 @@ struct FSCalendarView: UIViewRepresentable {
         calendar.appearance.titleDefaultColor = .white         // цифры текущего месяца
         calendar.appearance.titlePlaceholderColor = .gray      // цифры прошлого/след. месяца
         calendar.appearance.titleWeekendColor = .systemRed     // выходные (опционально)
-        calendar.firstWeekday = 2
-        calendar.appearance.selectionColor = .black        // кружок выделения
+        calendar.firstWeekday = 2                              // показывать календарь с ПН
+        calendar.appearance.selectionColor = .black            // кружок выделения
         calendar.appearance.titleSelectionColor = .white       // цифра выделенного дня
-        calendar.appearance.borderRadius = 0.5
-        calendar.appearance.todayColor = .background         // кружок "today"
+        calendar.appearance.borderRadius = 0.5                 // изменить кружок выбранной дате
+        calendar.appearance.todayColor = .background           // кружок "today"
         calendar.appearance.titleTodayColor = .white           // цифра "today"
         calendar.locale = Locale(identifier: "ru_RU")
         return calendar
@@ -46,22 +45,6 @@ struct FSCalendarView: UIViewRepresentable {
 
         init(_ parent: FSCalendarView) {
             self.parent = parent
-        }
-
-        // Обработка выбора даты
-//        func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-//            parent.selectedDate = date
-//        }
-
-        // Добавление точек или изображений (пример)
-//        func calendar(_ calendar: FSCalendar, imageFor date: Date) -> UIImage? {
-//            // Если есть событие, возвращаем изображение
-//            return nil // Или ваше изображение
-//        }
-        // Добавление точек
-        func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
-            // Возвращаем количество точек для события
-            return 0
         }
     }
 }

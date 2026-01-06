@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var selectedDate: Date? = nil
     var body: some View {
         VStack(spacing: 0) {
             title
@@ -22,8 +21,7 @@ struct ContentView: View {
             HStack  {
                 Image(.dumbbell)
                 Text("Мои тренировки")
-                    .font(.system(size: 30))
-                    .fontWeight(.bold)
+                    .font(.system(size: 30, weight: .bold))
                     .foregroundStyle(.white)
                 Spacer()
             }
@@ -34,7 +32,6 @@ struct ContentView: View {
         }
         .padding(.horizontal)
         .padding(.bottom, 16)
-        //            .frame(maxWidth: .infinity, alignment: .leading)
         .background(Color.background.ignoresSafeArea())
     }
 
@@ -50,7 +47,6 @@ struct ContentView: View {
             }
             .padding()
             FSCalendarView()
-            //                    .tint(.white)
                 .padding(.horizontal, 20)
                 .frame(height: 310)
             myExercisesButton
@@ -84,7 +80,7 @@ var myExercisesButton: some View {
         }
     }
 }
-
+// MARK: - CONTINUEBUTTON
 var continueButton: some View {
     Button(action: {
 
