@@ -6,16 +6,15 @@
 //
 
 import SwiftUI
-
-
 struct MyExercisesView: View {
 
     var viewModel: MyExercisesViewModel
     var body: some View {
         VStack {
             header
-            Spacer()
+            content
         }
+        .background(Color.backgroundContent.ignoresSafeArea())
     }
 
     var header: some View {
@@ -35,7 +34,6 @@ struct MyExercisesView: View {
             .padding(.horizontal)
             exercisesButton
         }
-        .background(Color.backgroundContent.ignoresSafeArea())
     }
 
     //MARK: - exercisesButton
@@ -64,15 +62,19 @@ struct MyExercisesView: View {
 
     var content: some View {
         ScrollView {
-            exercise(item)
-
+            ForEach(viewModel.exercises, id: \.id) { item in
+                exercise(item)
+            }
         }
+        .padding(.horizontal, 5)
     }
 
-    func exercise(_ item: ExerciseModel) {
-        ExerciseView(
-            title: item.name,
-            description: item.numberOfRepetitions
+    func exercise(_ item: ExerciseModel) -> some View {
+        ExerciseView(title: item.name,
+                     sets: item.sets,
+                     reps: item.reps,
+                     weight: item.weight,
+                     category: item.category
         )
     }
 }

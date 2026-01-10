@@ -10,12 +10,18 @@ import SwiftUI
 struct ExerciseView: View {
 
     let title: String
-    let description: String
+    let sets: Int
+    let reps: Int
+    let category: String
+    let weight: Int
     let onDelet: (() -> Void)?
 
-    init(title: String, description: String, onDelet: (() -> Void)? = nil) {
+    init(title: String, sets: Int, reps: Int, weight: Int, category: String, onDelet: (() -> Void)? = nil) {
         self.title = title
-        self.description = description
+        self.sets = sets
+        self.reps = reps
+        self.category = category
+        self.weight = weight
         self.onDelet = onDelet
     }
 
@@ -25,10 +31,9 @@ struct ExerciseView: View {
                 Text(title)
                     .foregroundStyle(.white)
                     .font(.system(size: 25, weight: .medium))
-                Text(description)
-                    .foregroundStyle(.white)
-                    .font(.system(size: 15, weight: .medium))
-
+                    Text("\(sets) x \(reps) • \(weight) кг • \(category)")
+                        .foregroundStyle(.white)
+                        .font(.system(size: 15, weight: .light))
             }
             .padding(10)
             Spacer()
@@ -48,7 +53,7 @@ struct ExerciseView: View {
 
 #Preview {
     VStack {
-        ExerciseView(title: "Плечи", description: "3 x 10 Cпина")
+        ExerciseView(title: "Жим лежа", sets: 4, reps: 10,  weight: 50, category: "Грудь" )
     }
     .padding()
 }
