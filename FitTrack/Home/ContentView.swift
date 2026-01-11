@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
+
+    var viewModel: HomeViewModel
+
     var body: some View {
         VStack(spacing: 0) {
             title
@@ -80,6 +83,7 @@ var myExercisesButton: some View {
         }
     }
 }
+
 // MARK: - CONTINUEBUTTON
 var continueButton: some View {
     Button(action: {
@@ -94,11 +98,13 @@ var continueButton: some View {
     .frame(height: 50)
     .background(.backgroundButton)
     .overlay {
-        RoundedRectangle(cornerRadius: 15) // Форма рамки
+        RoundedRectangle(cornerRadius: 15)
             .stroke(Color.backgroundBorder, lineWidth: 3)
     }
 }
 
 #Preview {
-    ContentView()
+    ContentView(viewModel: .init(output: { _ in })
+
+    )
 }

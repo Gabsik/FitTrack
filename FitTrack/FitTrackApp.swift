@@ -11,7 +11,7 @@ import SwiftUI
 struct FitTrackApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(viewModel: HomeViewModel(output: { _ in }) )
         }
     }
 }
