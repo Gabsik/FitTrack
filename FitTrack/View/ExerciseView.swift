@@ -30,10 +30,10 @@ struct ExerciseView: View {
             VStack(alignment: .leading, spacing: 10) {
                 Text(title)
                     .foregroundStyle(.white)
-                    .font(.system(size: 25, weight: .medium))
+                    .font(.system(size: 18, weight: .medium))
                     Text("\(sets) x \(reps) • \(weight) кг • \(category)")
                         .foregroundStyle(.white)
-                        .font(.system(size: 15, weight: .light))
+                        .font(.system(size: 10, weight: .light))
             }
             .padding(10)
             Spacer()
@@ -45,7 +45,7 @@ struct ExerciseView: View {
             })
             .padding(10)
         }
-        .padding(12)
+        .padding(7)
         .background(.exercise)
         .cornerRadius(12)
     }

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct HomeView: View {
 
     var viewModel: HomeViewModel
 
@@ -15,6 +15,9 @@ struct ContentView: View {
         VStack(spacing: 0) {
             title
             content
+        }
+        .onAppear {
+            viewModel.bind()
         }
     }
 
@@ -61,17 +64,36 @@ struct ContentView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .background(Color.backgroundContent.ignoresSafeArea())
     }
-}
 
-// MARK: - BUTTON MY EXERCISES
-var myExercisesButton: some View {
-    HStack {
+    // MARK: - BUTTON MY EXERCISES
+    var myExercisesButton: some View {
+        HStack {
+            Button(action: { viewModel.input?(.myExercisesTapped)
+            }) {
+                Image(systemName: "gearshape.fill")
+                    .foregroundStyle(.backgroundTitle)
+                Text("Мои упражнения")
+                    .font(.system(size: 20, weight: .bold))
+                    .foregroundColor(.backgroundTitle)
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: 50)
+            .background(.backgroundButton)
+            .overlay {
+                RoundedRectangle(cornerRadius: 15)
+                    .stroke(Color.backgroundBorder, lineWidth: 3)
+            }
+        }
+    }
+
+    // MARK: - CONTINUEBUTTON
+    var continueButton: some View {
         Button(action: {
+
         }) {
-            Image(systemName: "gearshape.fill")
-                .foregroundStyle(.backgroundTitle)
-            Text("Мои упражнения")
+            Text("Продолжить")
                 .font(.system(size: 20, weight: .bold))
+                .padding(10)
                 .foregroundColor(.backgroundTitle)
         }
         .frame(maxWidth: .infinity)
@@ -84,27 +106,8 @@ var myExercisesButton: some View {
     }
 }
 
-// MARK: - CONTINUEBUTTON
-var continueButton: some View {
-    Button(action: {
-
-    }) {
-        Text("Продолжить")
-            .font(.system(size: 20, weight: .bold))
-            .padding(10)
-            .foregroundColor(.backgroundTitle)
-    }
-    .frame(maxWidth: .infinity)
-    .frame(height: 50)
-    .background(.backgroundButton)
-    .overlay {
-        RoundedRectangle(cornerRadius: 15)
-            .stroke(Color.backgroundBorder, lineWidth: 3)
-    }
-}
-
 #Preview {
-    ContentView(viewModel: .init(output: { _ in })
+    HomeView(viewModel: .init(output: { _ in })
 
     )
 }

@@ -9,10 +9,18 @@ import SwiftUI
 struct MyExercisesView: View {
 
     var viewModel: MyExercisesViewModel
+    @Environment(\.dismiss) private var dismiss
+
     var body: some View {
-        VStack {
-            header
-            content
+        ZStack {
+            VStack(spacing: 15) {
+                header
+                    .padding(.bottom, 10)
+                content
+//                Spacer()
+//                foter
+//                    .padding(.bottom, 10)
+            }
         }
         .background(Color.backgroundContent.ignoresSafeArea())
     }
@@ -25,9 +33,11 @@ struct MyExercisesView: View {
                     .foregroundStyle(.white)
                     .font(.system(size: 23, weight: .bold))
                 Spacer()
-                Button(action: {
+                Button(action: { dismiss()
                 }) {
                     Image(systemName: "xmark.circle.fill")
+                        .resizable()
+                        .frame(width: 25, height: 25)
                         .foregroundStyle(.white)
                 }
             }
@@ -39,12 +49,13 @@ struct MyExercisesView: View {
     //MARK: - exercisesButton
     var exercisesButton: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack {
+            HStack(spacing: 13) {
                 ForEach(viewModel.arryButton, id: \.self) { item in
                     Button(action: {
                         print("нажали на \(item)")
                     }) {
                         Text(item)
+                            .font(.system(size: 13, weight: .regular))
                             .padding(.horizontal)
                             .padding(.vertical, 5)
                             .frame(maxWidth: .infinity)
@@ -58,16 +69,40 @@ struct MyExercisesView: View {
             }
             .padding(5)
         }
+        .padding(.leading, 10)
     }
 
     var content: some View {
-        ScrollView {
-            ForEach(viewModel.exercises, id: \.id) { item in
-                exercise(item)
+        VStack {
+            ScrollView {
+                ForEach(viewModel.exercises, id: \.id) { item in
+                    exercise(item)
+                }
             }
+            .padding(.horizontal, 10)
+            foter
         }
-        .padding(.horizontal, 5)
     }
+
+    //FOTER
+    var foter: some View {
+            Button {
+
+            } label: {
+                Text("CОЗДАТЬ УПРАЖНЕНИЯ")
+                    .font(.system(size: 20, weight: .bold))
+                    .padding(10)
+                    .foregroundColor(.backgroundTitle)
+            }
+            .frame(maxWidth: .infinity)
+            .background(.backgroundButton)
+            .overlay {
+                RoundedRectangle(cornerRadius: 15)
+                    .stroke(Color.backgroundBorder, lineWidth: 3)
+            }
+            .padding(.horizontal, 10)
+        }
+
 
     func exercise(_ item: ExerciseModel) -> some View {
         ExerciseView(title: item.name,
