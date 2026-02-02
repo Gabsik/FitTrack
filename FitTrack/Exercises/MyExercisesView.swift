@@ -15,11 +15,7 @@ struct MyExercisesView: View {
         ZStack {
             VStack(spacing: 15) {
                 header
-                    .padding(.bottom, 10)
                 content
-//                Spacer()
-//                foter
-//                    .padding(.bottom, 10)
             }
         }
         .background(Color.backgroundContent.ignoresSafeArea())
@@ -59,10 +55,10 @@ struct MyExercisesView: View {
                             .padding(.horizontal)
                             .padding(.vertical, 5)
                             .frame(maxWidth: .infinity)
-                            .foregroundStyle(.white)
+                            .foregroundStyle(.backgroundTitle)
                             .overlay {
                                 RoundedRectangle(cornerRadius: 15)
-                                    .stroke(Color.white, lineWidth: 2)
+                                    .stroke(Color.backgroundBorder, lineWidth: 2)
                             }
                     }
                 }
@@ -86,22 +82,25 @@ struct MyExercisesView: View {
 
     //FOTER
     var foter: some View {
-            Button {
+        Button {
 
-            } label: {
-                Text("CОЗДАТЬ УПРАЖНЕНИЯ")
-                    .font(.system(size: 20, weight: .bold))
-                    .padding(10)
-                    .foregroundColor(.backgroundTitle)
-            }
-            .frame(maxWidth: .infinity)
-            .background(.backgroundButton)
-            .overlay {
-                RoundedRectangle(cornerRadius: 15)
-                    .stroke(Color.backgroundBorder, lineWidth: 3)
-            }
-            .padding(.horizontal, 10)
+        } label: {
+            Text("CОЗДАТЬ УПРАЖНЕНИЯ")
+                .font(.system(size: 20, weight: .bold))
+                .padding(10)
+                .foregroundColor(.backgroundTitle)
         }
+        .frame(maxWidth: .infinity)
+        .background(
+            RoundedRectangle(cornerRadius: 15)
+                .fill(Color.backgroundButton)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 15)
+                .stroke(Color.backgroundBorder, lineWidth: 3)
+        )
+        .padding(.horizontal, 10)
+    }
 
 
     func exercise(_ item: ExerciseModel) -> some View {

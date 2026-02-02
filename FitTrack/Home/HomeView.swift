@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
 
-    var viewModel: HomeViewModel
+    @ObservedObject var viewModel: HomeViewModel
 
     var body: some View {
         VStack(spacing: 0) {
@@ -52,7 +52,12 @@ struct HomeView: View {
                 Spacer()
             }
             .padding()
-            FSCalendarView()
+            FSCalendarView(
+                selectedDate: Binding(
+                    get: { viewModel.state.selectedDate },
+                    set: { viewModel.state.selectedDate = $0 }
+                )
+            )
                 .padding(.horizontal, 20)
                 .frame(height: 310)
             myExercisesButton
@@ -88,26 +93,27 @@ struct HomeView: View {
 
     // MARK: - CONTINUEBUTTON
     var continueButton: some View {
-        Button(action: {
-
+        Button(action: { viewModel.input?(.workoutDayViewTapped)
         }) {
-            Text("Продолжить")
-                .font(.system(size: 20, weight: .bold))
-                .padding(10)
-                .foregroundColor(.backgroundTitle)
-        }
+            Text(viewModel.state.selectedDate == nil ? "Выберите дату" : "Продолжить")
+                    .font(.system(size: 20, weight: .bold))
+                    .padding(10)
+                    .foregroundColor(.white)
+            }
+        .disabled(viewModel.state.selectedDate == nil)
         .frame(maxWidth: .infinity)
         .frame(height: 50)
-        .background(.backgroundButton)
-        .overlay {
+        .background(
             RoundedRectangle(cornerRadius: 15)
-                .stroke(Color.backgroundBorder, lineWidth: 3)
-        }
+                .fill(Color.background)
+        )
     }
 }
 
 #Preview {
-    HomeView(viewModel: .init(output: { _ in })
-
+    HomeView(viewModel:
+            .init(
+                state: .init(),
+                output: { _ in })
     )
 }

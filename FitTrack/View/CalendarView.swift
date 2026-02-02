@@ -10,7 +10,9 @@ import FSCalendar
 import UIKit
 
 struct FSCalendarView: UIViewRepresentable {
-    
+
+    @Binding var selectedDate: Date?
+
     func makeUIView(context: Context) -> FSCalendar {
         let calendar = FSCalendar()
         calendar.delegate = context.coordinator
@@ -32,19 +34,38 @@ struct FSCalendarView: UIViewRepresentable {
 
     func updateUIView(_ uiView: FSCalendar, context: Context) {
         // Обновление календаря, если данные меняются
-        uiView.reloadData()
+        //        uiView.reloadData()
     }
 
     func makeCoordinator() -> Coordinator {
-        Coordinator(self)
+        Coordinator(selectedDate: $selectedDate)
     }
 
     // Координатор для обработки делегатов
     class Coordinator: NSObject, FSCalendarDelegate, FSCalendarDataSource {
-        var parent: FSCalendarView
+        private var selectedDate: Binding<Date?>
 
-        init(_ parent: FSCalendarView) {
-            self.parent = parent
+        init(selectedDate: Binding<Date?>) {
+            self.selectedDate = selectedDate
         }
+        func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+            selectedDate.wrappedValue = date
+        }
+
+        func calendar(_ calendar: FSCalendar,
+                      shouldSelect date: Date,
+                      at monthPosition: FSCalendarMonthPosition) -> Bool {
+
+            if let current = selectedDate.wrappedValue,
+               Calendar.current.isDate(current, inSameDayAs: date) {
+
+                calendar.deselect(current)          // снять выделение в UI
+                selectedDate.wrappedValue = nil     // обновить SwiftUI состояние
+                return false                        // не даём снова выбрать этот же день
+            }
+
+            return true
+        }
+
     }
 }
