@@ -8,20 +8,12 @@
 import UIKit
 
 final class HomeCoordinator {
-    private let window: UIWindow
-    private weak var rootVC: UIViewController?
-    private let navigationController = UINavigationController()
+    private let navigationController: UINavigationController
+    private var workoutDayCoordinator: WorkoutDayCoordinator?
+    private var myExercisesCoordinator: MyExercisesCoordinator?
 
-    init(window: UIWindow) {
-        self.window = window
-    }
-
-    func start() {
-        let root = makeRootHome()
-        rootVC = root
-        navigationController.setViewControllers([root], animated: false)
-        window.rootViewController = navigationController
-        window.makeKeyAndVisible()
+    init(navigationController: UINavigationController) {
+        self.navigationController = navigationController
     }
 
     func makeRootHome() -> UIViewController {
@@ -47,25 +39,21 @@ final class HomeCoordinator {
     }
 
     private func makeWorkoutDayView(selectedDate: Date) -> UIViewController {
-        let viewModel = WorkoutDayViewModel(
-            state: .init(selectedDate: selectedDate),
-            output: { [weak self] output in
-            }
-        )
-        let view = WorkoutDayView(viewModel: viewModel)
-        return BetterHostingController(shouldShowNavigationBar: true, rootView: view)
+        let coordinator = WorkoutDayCoordinator(navigationController: navigationController)
+        workoutDayCoordinator = coordinator
+        return coordinator.makeRootWorkoutDay(selectedDate: selectedDate)
     }
 
     private func showMyExercises() {
         let vc = makeMyExercises()
         vc.modalPresentationStyle = .fullScreen
-        rootVC?.present(vc, animated: true)
+        navigationController.present(vc, animated: true)
     }
 
     private func makeMyExercises() -> UIViewController {
-        let viewModel = MyExercisesViewModel()
-        let view = MyExercisesView(viewModel: viewModel)
-        return BetterHostingController(rootView: view)
+        let coordinator = MyExercisesCoordinator()
+        myExercisesCoordinator = coordinator
+        return coordinator.makeRootMyExercises()
     }
 
 }

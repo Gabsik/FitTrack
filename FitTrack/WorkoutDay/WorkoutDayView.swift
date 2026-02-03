@@ -22,6 +22,9 @@ struct WorkoutDayView: View {
             }
         }
         .background(Color.backgroundContent.ignoresSafeArea())
+        .onAppear {
+            viewModel.bind()
+        }
     }
 
     var headr: some View {
@@ -69,10 +72,13 @@ struct WorkoutDayView: View {
             }
         }
     }
+
+    //    var content: some View {
+    //
+    //    }
+
     var buttonAddExercises: some View {
-        Button(action: {
-            
-        })
+        Button(action: { viewModel.input?(.myExercisesTapped) })
         {
             VStack {
                 Image(.plus)
@@ -91,4 +97,3 @@ struct WorkoutDayView: View {
 #Preview {
     WorkoutDayView(viewModel: WorkoutDayViewModel(state: .init(nameWorkout: "Ноги и Плечи", selectedDate: Date()), output:  { _ in }))
 }
-

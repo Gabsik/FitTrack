@@ -20,6 +20,16 @@ class WorkoutDayViewModel: ObservableObject {
         self.state = state
         self.output = output
     }
+
+    func bind () {
+        self.input = { [weak self] input in
+            guard let self else { return }
+            switch input {
+            case .myExercisesTapped:
+                output(.showMyExercises)
+            }
+        }
+    }
 }
 
 extension WorkoutDayViewModel {
@@ -31,10 +41,12 @@ extension WorkoutDayViewModel {
 
 extension WorkoutDayViewModel {
     enum Input {
+        case myExercisesTapped
     }
 }
 
 extension WorkoutDayViewModel {
     enum Output {
+        case showMyExercises
     }
 }
