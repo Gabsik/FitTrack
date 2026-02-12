@@ -6,18 +6,21 @@
 //
 
 import UIKit
+import SwiftData
 
 final class AppCoordinator {
     private let window: UIWindow
     private let navigationController = UINavigationController()
     private var homeCoordinator: HomeCoordinator?
+    private let modelContext: ModelContext
 
-    init(window: UIWindow) {
+    init(window: UIWindow, modelContext: ModelContext) {
         self.window = window
+        self.modelContext = modelContext
     }
 
     func start() {
-        let coordinator = HomeCoordinator(navigationController: navigationController)
+        let coordinator = HomeCoordinator(navigationController: navigationController, modelContext: modelContext)
         homeCoordinator = coordinator
 
         let root = coordinator.makeRootHome()

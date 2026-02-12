@@ -6,14 +6,17 @@
 //
 
 import UIKit
+import SwiftData
 
 final class HomeCoordinator {
     private let navigationController: UINavigationController
     private var workoutDayCoordinator: WorkoutDayCoordinator?
     private var myExercisesCoordinator: MyExercisesCoordinator?
+    private let modelContext: ModelContext
 
-    init(navigationController: UINavigationController) {
+    init(navigationController: UINavigationController, modelContext: ModelContext) {
         self.navigationController = navigationController
+        self.modelContext = modelContext
     }
 
     func makeRootHome() -> UIViewController {
@@ -39,7 +42,7 @@ final class HomeCoordinator {
     }
 
     private func makeWorkoutDayView(selectedDate: Date) -> UIViewController {
-        let coordinator = WorkoutDayCoordinator(navigationController: navigationController)
+        let coordinator = WorkoutDayCoordinator(navigationController: navigationController, modelContext: modelContext)
         workoutDayCoordinator = coordinator
         return coordinator.makeRootWorkoutDay(selectedDate: selectedDate)
     }
@@ -51,7 +54,7 @@ final class HomeCoordinator {
     }
 
     private func makeMyExercises() -> UIViewController {
-        let coordinator = MyExercisesCoordinator()
+        let coordinator = MyExercisesCoordinator(modelContext: modelContext)
         myExercisesCoordinator = coordinator
         return coordinator.makeRootMyExercises()
     }

@@ -10,8 +10,8 @@ import Foundation
 public struct ExerciseModel {
     public var id: UUID = UUID()
     public var name: String
-    public var sets: Int
-    public var reps: Int
-    public var weight: Int
-    public var category: String
+    public var sets: Int?
+    public var reps: Int?
+    public var weight: Int?
+    public var categoryId: String
 }

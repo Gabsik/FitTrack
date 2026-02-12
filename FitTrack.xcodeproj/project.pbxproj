@@ -15,7 +15,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		0D75037B2ED85FAC00779CB4 /* FitTrack */ = {
+		0DFF0F892F3201A100B02BCC /* FitTrack */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = FitTrack;
 			sourceTree = "<group>";
@@ -37,7 +37,7 @@
 		0D7503702ED85FAC00779CB4 = {
 			isa = PBXGroup;
 			children = (
-				0D75037B2ED85FAC00779CB4 /* FitTrack */,
+				0DFF0F892F3201A100B02BCC /* FitTrack */,
 				0D75037A2ED85FAC00779CB4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -66,7 +66,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				0D75037B2ED85FAC00779CB4 /* FitTrack */,
+				0DFF0F892F3201A100B02BCC /* FitTrack */,
 			);
 			name = FitTrack;
 			packageProductDependencies = (

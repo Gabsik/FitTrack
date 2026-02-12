@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import SwiftData
+
 struct MyExercisesView: View {
 
-    var viewModel: MyExercisesViewModel
+    @ObservedObject var viewModel: MyExercisesViewModel
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -19,6 +21,9 @@ struct MyExercisesView: View {
             }
         }
         .background(Color.backgroundContent.ignoresSafeArea())
+        .onAppear {
+            viewModel.bind()
+        }
     }
 
     var header: some View {
@@ -46,9 +51,9 @@ struct MyExercisesView: View {
     var exercisesButton: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 13) {
-                ForEach(viewModel.arryButton, id: \.self) { item in
+                ForEach(["Все"] + ExerciseCategory.allCases.map(\.title), id: \.self) { item in
                     Button(action: {
-                        print("нажали на \(item)")
+                        viewModel.selectedCategory = item
                     }) {
                         Text(item)
                             .font(.system(size: 13, weight: .regular))
@@ -71,7 +76,7 @@ struct MyExercisesView: View {
     var content: some View {
         VStack {
             ScrollView {
-                ForEach(viewModel.exercises, id: \.id) { item in
+                ForEach(viewModel.filteredExercises, id: \.id) { item in
                     exercise(item)
                 }
             }
@@ -83,7 +88,7 @@ struct MyExercisesView: View {
     //FOTER
     var foter: some View {
         Button {
-
+            viewModel.input?(.createExerciseTapped)
         } label: {
             Text("CОЗДАТЬ УПРАЖНЕНИЯ")
                 .font(.system(size: 20, weight: .bold))
@@ -104,15 +109,57 @@ struct MyExercisesView: View {
 
 
     func exercise(_ item: ExerciseModel) -> some View {
-        ExerciseView(title: item.name,
-                     sets: item.sets,
-                     reps: item.reps,
-                     weight: item.weight,
-                     category: item.category
+        let categoryTitle = ExerciseCategory(rawValue: item.categoryId)?.title ?? item.categoryId
+        return ExerciseView(title: item.name,
+                     sets: item.sets ?? 0,
+                     reps: item.reps ?? 0,
+                     weight: item.weight ?? 0,
+                     category: categoryTitle
         )
     }
 }
 
+#if DEBUG
 #Preview {
-    MyExercisesView(viewModel: MyExercisesViewModel())
+    MyExercisesView(
+        viewModel: MyExercisesViewModel(modelContext: MyExercisesPreviewData.context)
+    )
+    .modelContainer(MyExercisesPreviewData.container)
 }
+
+
+private enum MyExercisesPreviewData {
+    static let container: ModelContainer = {
+        let container = try! ModelContainer(
+            for: ExerciseEntity.self,
+            configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+        )
+        return container
+    }()
+
+    static let context: ModelContext = {
+        let context = ModelContext(container)
+        context.insert(
+            ExerciseEntity(
+                name: "Жим лежа",
+                sets: 4,
+                reps: 8,
+                weight: 60,
+                categoryId: ExerciseCategory.chest.id
+            )
+        )
+        context.insert(
+            ExerciseEntity(
+                name: "Присед",
+                sets: 5,
+                reps: 5,
+                weight: 80,
+                categoryId: ExerciseCategory.legs.id
+            )
+        )
+        try? context.save()
+        return context
+    }()
+}
+
+#endif

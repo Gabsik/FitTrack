@@ -67,15 +67,14 @@ struct WorkoutDayView: View {
                 }) {
                     HStack {
                         Image(.back)
+                            .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 50, height: 50)
                     }
                 }
             }
         }
     }
-
-    //    var content: some View {
-    //
-    //    }
 
     var buttonAddExercises: some View {
         Button(action: { viewModel.input?(.myExercisesTapped) })
